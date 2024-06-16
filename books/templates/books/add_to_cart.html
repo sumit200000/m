@@ -1,0 +1,5 @@
+<!-- In your template -->
+<form action="{% url 'add_to_cart' book.id %}" method="post">
+    {% csrf_token %}
+    <button type="submit">Add to Cart</button>
+</form>

@@ -1,0 +1,141 @@
+{% extends 'books/base.html' %}
+{% block title %}Books{% endblock %}
+{% block content %}
+    <h1 class="my-4">Books</h1>
+    <form method="get">
+        <div class="form-row">
+            <div class="form-group col-md-4">
+                <label for="category">Category</label>
+                <select id="category" name="category" class="form-control">
+                    <option value="">All</option>
+                    {% for category in categories %}
+                    <option value="{{ category.id }}">{{ category.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group col-md-4">
+                <label for="price_min">Min Price</label>
+                <input type="number" id="price_min" name="price_min" class="form-control">
+            </div>
+            <div class="form-group col-md-4">
+                <label for="price_max">Max Price</label>
+                <input type="number" id="price_max" name="price_max" class="form-control">
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Filter</button>
+    </form>
+    <div class="row mt-4">
+        {% for book in books %}
+        <div class="col-lg-4 col-md-6 mb-4">
+            <div class="card h-100">
+                <a href="{% url 'product_detail' book.id %}"><img class="card-img-top" src="{{ book.image.url }}" alt="{{ book.title }}"></a>
+                <div class="card-body">
+                    <h4 class="card-title">
+                        <a href="{% url 'product_detail' book.id %}">{{ book.title }}</a>
+                    </h4>
+                    <h5>${{ book.price }}</h5>
+                    <p class="card-text">{{ book.description|truncatewords:20 }}</p>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <script>
+        function removeLoadingPlaceholder(img) {
+            img.parentElement.classList.remove('loading-placeholder');
+        }
+    
+        // Add form validation using Bootstrap's built-in classes
+        (function() {
+            'use strict';
+            // Fetch all the forms we want to apply custom Bootstrap validation styles to
+            var forms = document.querySelectorAll('.needs-validation');
+            // Loop over them and prevent submission
+            Array.prototype.slice.call(forms)
+                .forEach(function(form) {
+                    form.addEventListener('submit', function(event) {
+                        if (!form.checkValidity()) {
+                            event.preventDefault();
+                            event.stopPropagation();
+                        }
+                        form.classList.add('was-validated');
+                    }, false);
+                });
+        })();
+    </script>
+    
+    <style>
+        .book-item {
+            transition: all 0.3s ease-in-out;
+        }
+        
+        .book-item:hover {
+            transform: scale(1.05);
+        }
+        
+        .card {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        
+        .card-img-top {
+            object-fit: contain;
+            height: 200px;
+            width: 100%;
+            background-color: #f8f9fa;
+        }
+        
+        .card-body {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        
+        .card-title {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+    
+        .loading-placeholder {
+            background-color: #f8f9fa;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 200px;
+            width: 100%;
+        }
+    
+        .loading-placeholder::before {
+            content: "Loading...";
+            font-size: 1.5rem;
+            color: #6c757d;
+        }
+        
+        #suggestions {
+            z-index: 1000;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        
+        .list-group-item {
+            cursor: pointer;
+        }
+        
+        .list-group-item.active {
+            background-color: #007bff;
+            color: white;
+        }
+        
+        .list-group-item strong {
+            color: red;
+        }
+        
+        #loading {
+            top: 50%;
+            right: 10px;
+        }
+    </style>
+    
+{% endblock %}

@@ -1,0 +1,63 @@
+{% extends 'books/base.html' %}
+{% block title %}{{ book.title }}{% endblock %}
+{% block content %}
+    <div class="row">
+        <div class="col-md-6">
+            <img class="img-fluid" src="{{ book.image.url }}" alt="{{ book.title }}">
+        </div>
+        <div class="col-md-6">
+            <h2>{{ book.title }}</h2>
+            <h4>${{ book.price }}</h4>
+            <p>{{ book.description }}</p>
+            <a href="{% url 'add_to_cart' book.id %}" class="btn btn-primary">Add to Cart</a>
+            <a href="{% url 'add_to_wishlist' book.id %}" class="btn btn-secondary">Add to Wishlist</a>
+            <!-- Social Media Sharing Buttons -->
+            <!-- Social Media Sharing Buttons -->
+            <div class="addthis_inline_share_toolbox mt-3"></div>
+        </div>
+    </div>
+    <div class="row mt-4">
+        <div class="col-md-12">
+            <h3>Reviews</h3>
+            {% for review in reviews %}
+            <div class="card mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">{{ review.user.username }} - {{ review.rating }} stars</h5>
+                    <p class="card-text">{{ review.comment }}</p>
+                    <p class="card-text"><small class="text-muted">Reviewed on {{ review.created_at }}</small></p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="row mt-4">
+        <div class="col-md-12">
+            <h3>Leave a Review</h3>
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="btn btn-primary">Submit Review</button>
+            </form>
+        </div>
+    </div>
+    <div class="row mt-4">
+        <div class="col-md-12">
+            <h3>Recommended Books</h3>
+            <div class="row">
+                {% for recommendation in recommendations %}
+                <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+                    <div class="card h-100">
+                        <a href="{% url 'product_detail' recommendation.id %}"><img class="card-img-top" src="{{ recommendation.image_url }}" alt="{{ recommendation.title }}"></a>
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <a href="{% url 'product_detail' recommendation.id %}">{{ recommendation.title }}</a>
+                            </h5>
+                            <h6>${{ recommendation.price }}</h6>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

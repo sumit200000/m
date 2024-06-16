@@ -1,0 +1,10 @@
+{% extends 'books/base.html' %}
+{% block title %}Profile{% endblock %}
+{% block content %}
+    <h1 class="my-4">Your Profile</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Update Profile</button>
+    </form>
+{% endblock %}

@@ -1,0 +1,50 @@
+{% extends "admin/base_site.html" %}
+{% load static %}
+
+{% block title %}Admin Dashboard{% endblock %}
+
+{% block content %}
+    <h1>Admin Dashboard</h1>
+    <div class="row">
+        <div class="col-lg-3 col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title">Total Orders</h5>
+                </div>
+                <div class="card-body">
+                    <p class="card-text">{{ total_orders }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title">Pending Orders</h5>
+                </div>
+                <div class="card-body">
+                    <p class="card-text">{{ pending_orders }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title">Shipped Orders</h5>
+                </div>
+                <div class="card-body">
+                    <p class="card-text">{{ shipped_orders }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title">Delivered Orders</h5>
+                </div>
+                <div class="card-body">
+                    <p class="card-text">{{ delivered_orders }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

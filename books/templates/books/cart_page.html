@@ -1,0 +1,20 @@
+<!-- books/templates/books/cart_page.html -->
+{% extends 'books/base.html' %}
+
+{% block title %}Cart{% endblock %}
+
+{% block content %}
+<div class="container my-4">
+    <h2>Your Cart</h2>
+    <ul>
+        {% for item in cart_items %}
+            <li>
+                {{ item.book.title }} - Quantity: {{ item.quantity }}
+                <a href="{% url 'remove_from_cart' item.book.id %}" class="btn btn-danger btn-sm">Remove</a>
+            </li>
+        {% empty %}
+            <li>Your cart is empty.</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

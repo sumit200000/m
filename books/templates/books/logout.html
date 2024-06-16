@@ -1,0 +1,10 @@
+{% extends 'books/base.html' %}
+{% block title %}Logout{% endblock %}
+{% block content %}
+    <h2>Logout</h2>
+    <form method="post">
+        {% csrf_token %}
+        <p>Are you sure you want to logout?</p>
+        <button type="submit" class="btn btn-primary">Logout</button>
+    </form>
+{% endblock %}

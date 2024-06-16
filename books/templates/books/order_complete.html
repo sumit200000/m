@@ -1,0 +1,8 @@
+<!-- books/templates/books/order_complete.html -->
+{% extends 'books/base.html' %}
+{% block title %}Order Complete{% endblock %}
+{% block content %}
+    <h2>Order Complete</h2>
+    <p>Thank you for your purchase! Your order has been placed successfully.</p>
+    <a href="{% url 'home' %}" class="btn btn-primary">Continue Shopping</a>
+{% endblock %}

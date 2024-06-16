@@ -1,0 +1,203 @@
+{% extends 'books/base.html' %}
+{% block title %}Home{% endblock %}
+{% block content %}
+<div class="container my-4">
+
+    <div class="jumbotron">
+        <h1 class="display-4">Welcome to Book_Kart!</h1>
+        <p class="lead">Your one-stop shop for the best books.</p>
+        <hr class="my-4">
+        <p>Explore our collection and find your next great read.</p>
+        <a class="btn btn-primary btn-lg" href="{% url 'product_listing' %}" role="button">Browse Books</a>
+    </div>
+    
+    <!-- Bestsellers Section -->
+    <div class="my-4">
+        <h2>Bestsellers</h2>
+        <div class="row">
+            {% for book in bestsellers %}
+            <div class="col-lg-3 col-md-4 col-sm-6 mb-4 book-item">
+                <div class="card h-100">
+                    <a href="{% url 'product_detail' book.id %}">
+                        <div class="loading-placeholder">
+                            <img class="card-img-top" src="{{ book.image.url }}" alt="{{ book.title }}" onload="removeLoadingPlaceholder(this)">
+                        </div>
+                    </a>
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            <a href="{% url 'product_detail' book.id %}">{{ book.title }}</a>
+                        </h5>
+                        <h6>${{ book.price }}</h6>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- New Arrivals Section -->
+    <div class="my-4">
+        <h2>New Arrivals</h2>
+        <div class="row">
+            {% for book in new_arrivals %}
+            <div class="col-lg-3 col-md-4 col-sm-6 mb-4 book-item">
+                <div class="card h-100">
+                    <a href="{% url 'product_detail' book.id %}">
+                        <div class="loading-placeholder">
+                            <img class="card-img-top" src="{{ book.image.url }}" alt="{{ book.title }}" onload="removeLoadingPlaceholder(this)">
+                        </div>
+                    </a>
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            <a href="{% url 'product_detail' book.id %}">{{ book.title }}</a>
+                        </h5>
+                        <h6>${{ book.price }}</h6>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- User Testimonials Section -->
+    <div class="my-4">
+        <h2>User Testimonials</h2>
+        <div class="row">
+            {% for testimonial in testimonials %}
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ testimonial.user.username }}</h5>
+                        <p class="card-text">{{ testimonial.comment }}</p>
+                        <p class="card-text"><small class="text-muted">Reviewed on {{ testimonial.created_at }}</small></p>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Newsletter Subscription Form -->
+    <div class="my-4">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <h2 class="card-title text-center mb-4">Subscribe to Our Newsletter</h2>
+                            <form method="post" action="{% url 'subscribe' %}" id="newsletter-form" class="needs-validation" novalidate>
+                                {% csrf_token %}
+                                <div class="form-group">
+                                    <label for="email">Email address:</label>
+                                    <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email" required>
+                                    <div class="invalid-feedback">Please provide a valid email address.</div>
+                                </div>
+                                <button type="submit" class="btn btn-primary btn-block">Subscribe</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function removeLoadingPlaceholder(img) {
+        img.parentElement.classList.remove('loading-placeholder');
+    }
+
+    // Add form validation using Bootstrap's built-in classes
+    (function() {
+        'use strict';
+        // Fetch all the forms we want to apply custom Bootstrap validation styles to
+        var forms = document.querySelectorAll('.needs-validation');
+        // Loop over them and prevent submission
+        Array.prototype.slice.call(forms)
+            .forEach(function(form) {
+                form.addEventListener('submit', function(event) {
+                    if (!form.checkValidity()) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }
+                    form.classList.add('was-validated');
+                }, false);
+            });
+    })();
+</script>
+
+<style>
+    .book-item {
+        transition: all 0.3s ease-in-out;
+    }
+    
+    .book-item:hover {
+        transform: scale(1.05);
+    }
+    
+    .card {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+    
+    .card-img-top {
+        object-fit: contain;
+        height: 200px;
+        width: 100%;
+        background-color: #f8f9fa;
+    }
+    
+    .card-body {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+    
+    .card-title {
+        font-size: 1.2rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .loading-placeholder {
+        background-color: #f8f9fa;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 200px;
+        width: 100%;
+    }
+
+    .loading-placeholder::before {
+        content: "Loading...";
+        font-size: 1.5rem;
+        color: #6c757d;
+    }
+    
+    #suggestions {
+        z-index: 1000;
+        max-height: 200px;
+        overflow-y: auto;
+    }
+    
+    .list-group-item {
+        cursor: pointer;
+    }
+    
+    .list-group-item.active {
+        background-color: #007bff;
+        color: white;
+    }
+    
+    .list-group-item strong {
+        color: red;
+    }
+    
+    #loading {
+        top: 50%;
+        right: 10px;
+    }
+</style>
+
+{% endblock %}
